@@ -1,99 +1,101 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
-import { FiUser } from 'react-icons/fi';
-import { MdOutlineAddAPhoto } from 'react-icons/md';
-import css from './Form.module.css';
-import PropTypes from 'prop-types';
+
+import css from './Form.module.scss';
 
 const Form = ({ addUser, toggleModal }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const [url, setUrl] = useState('');
+  const [brand, setBrand] = useState('');
+  const [price, setPrice] = useState(0);
+  const [kmFrom, setKmFrom] = useState('');
+  const [kmTo, setKmTo] = useState('');
 
   const handlerSubmit = e => {
     e.preventDefault();
-    const modelId = nanoid();
-    addUser({ id: modelId, name: name, number: number, url: url });
-    toggleModal();
+    // const modelId = nanoid();
+    // addUser({ id: modelId, name: name, number: number, url: url });
+    // toggleModal();
   };
 
-  const handlerChangeName = e => {
-    //  const { name, value } = e.currentTarget;
-    setName(e.currentTarget.value);
+  const handlerChangeBrand = e => {
+    setBrand(e.currentTarget.value);
   };
 
-  const handlerChangeNumber = e => {
-    //  const { name, value } = e.currentTarget;
-    setNumber(e.currentTarget.value);
+  const handlerChangePrice = e => {
+    setPrice(e.currentTarget.value);
   };
 
-  const handlerChangeFile = e => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setUrl(reader.result);
-    };
+  const handlerChangeKmFrom = e => {
+    setKmFrom(e.currentTarget.value);
+  };
+
+  const handlerChangeKmTo = e => {
+    setKmTo(e.currentTarget.value);
   };
 
   return (
     <form onSubmit={handlerSubmit} className={css.form} autoComplete="off">
-      <span className={css.iconSpan}>
-        {url ? (
-          <img className={css.photo} src={url} alt="User portrait"></img>
-        ) : (
-          <FiUser />
-        )}
-      </span>
-      <label className={css.formLabel}>
-        {/* <p className={css.formParagraph}>Name:</p> */}
-        <input
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-          value={name}
-          onChange={handlerChangeName}
+      <label className={`${css.label} ${css.labelBrand}`}>
+        Car brand
+        <select
+          name="brand"
+          value={brand}
+          onChange={handlerChangeBrand}
           className={css.input}
-          placeholder="Name"
-        />
+        >
+          <option value={''} disabled>
+            Enter the text
+          </option>
+          <option value="Buick">Buick</option>
+          <option value="Volvo">Volvo</option>
+          <option value="Hummer">Hummer</option>
+        </select>
       </label>
-      <label className={css.formLabel}>
-        {/* <p className={css.formParagraph}>Number:</p> */}
-        <input
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-          value={number}
-          onChange={handlerChangeNumber}
+
+      <label className={`${css.label} ${css.labelPrice}`}>
+        Price/ 1 hour
+        <select
+          name="price"
+          value={price}
+          onChange={handlerChangePrice}
           className={css.input}
-          placeholder="Number"
-        />
+        >
+          <option value={0} disabled>
+            To &
+          </option>
+          <option value={30}>30</option>
+          <option value={40}>40</option>
+          <option value={50}>50</option>
+        </select>
       </label>
-      <label className={css.imageLabel}>
-        <MdOutlineAddAPhoto className={css.icon} />
-        <input
-          type="file"
-          name="image"
-          accept="image/*,.png,.jpg,.gif,.web"
-          className={css.imageInput}
-          onChange={handlerChangeFile}
-        />
+
+      <label className={`${css.label} ${css.labelDistance}`}>
+        Car mileage / km
+        <div className={css.inputsWrap}>
+          <input
+            type="text"
+            name="kmFrom"
+            title="title"
+            value={kmFrom}
+            onChange={handlerChangeKmFrom}
+            className={`${css.input} ${css.inputDistanceLeft}`}
+            placeholder="Enter the text"
+          />
+          <input
+            type="text"
+            name="kmTo"
+            title="title"
+            value={kmTo}
+            onChange={handlerChangeKmTo}
+            className={`${css.input} ${css.inputDistanceRight}`}
+            placeholder="Enter the text"
+          />
+        </div>
       </label>
 
       <button className={css.button} type="submit">
-        Add
+        Search
       </button>
     </form>
   );
 };
 
 export default Form;
-
-Form.propTypes = {
-  addUser: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-};

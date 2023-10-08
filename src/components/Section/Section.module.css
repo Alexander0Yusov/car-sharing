@@ -1,6 +1,9 @@
 .container {
-  width: 340px;
+  display: flex;
+  width: 1280px;
+  height: 100vh;
   text-align: center;
+  outline: 1px solid tomato;
 
   background-color: #242527;
 }
