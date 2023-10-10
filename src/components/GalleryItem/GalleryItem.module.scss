@@ -1,0 +1,102 @@
+.card {
+  display: flex;
+  flex-direction: column;
+
+  outline: 1px solid tomato;
+
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  background-color: azure;
+}
+
+.thumb {
+  position: relative;
+  width: 100%;
+  height: 268px;
+  border-radius: 14px;
+  overflow: hidden;
+  outline: 1px solid red;
+  background-color: dimgrey;
+
+  & img {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    display: block;
+
+    height: 100%;
+    width: auto;
+  }
+}
+
+.favoriteIcon {
+  position: absolute;
+  right: 20px;
+  width: 18px;
+  color: #5db4fa;
+
+  &:hover {
+    color: #2574db;
+    cursor: pointer;
+  }
+}
+.favoriteBorderIcon {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  width: 18px;
+  height: 20px;
+  color: gray;
+
+  &:hover {
+    color: #2574db;
+    cursor: pointer;
+  }
+}
+
+.titleWrap {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.titleMain {
+}
+
+.titleModel {
+  color: rgba(52, 112, 255, 1);
+}
+
+.titlePrice {
+}
+
+.details {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: start;
+  color: rgba(18, 20, 23, 0.5);
+}
+
+.button {
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin-top: auto;
+
+  color: white;
+  background-color: rgba(52, 112, 255, 1);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  border: none;
+  border-radius: 12px;
+}

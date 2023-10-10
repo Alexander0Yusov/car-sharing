@@ -1,34 +1,38 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import css from './Form.module.scss';
 
-const Form = ({ addUser, toggleModal }) => {
+const Form = () => {
   const [brand, setBrand] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
   const [kmFrom, setKmFrom] = useState('');
   const [kmTo, setKmTo] = useState('');
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const setters = {
+    brand: setBrand,
+    price: setPrice,
+    kmFrom: setKmFrom,
+    kmTo: setKmTo,
+  };
+
+  const handlerChange = e => {
+    const { name, value } = e.currentTarget;
+    setters[name](value);
+  };
+
   const handlerSubmit = e => {
     e.preventDefault();
-    // const modelId = nanoid();
-    // addUser({ id: modelId, name: name, number: number, url: url });
-    // toggleModal();
-  };
 
-  const handlerChangeBrand = e => {
-    setBrand(e.currentTarget.value);
-  };
+    const filter = {};
+    if (brand) filter.brand = brand;
+    if (price) filter.price = price;
+    if (kmTo) filter.kmTo = kmTo;
+    if (kmFrom) filter.kmFrom = kmFrom;
 
-  const handlerChangePrice = e => {
-    setPrice(e.currentTarget.value);
-  };
-
-  const handlerChangeKmFrom = e => {
-    setKmFrom(e.currentTarget.value);
-  };
-
-  const handlerChangeKmTo = e => {
-    setKmTo(e.currentTarget.value);
+    setSearchParams(filter);
   };
 
   return (
@@ -38,7 +42,7 @@ const Form = ({ addUser, toggleModal }) => {
         <select
           name="brand"
           value={brand}
-          onChange={handlerChangeBrand}
+          onChange={handlerChange}
           className={css.input}
         >
           <option value={''} disabled>
@@ -55,16 +59,15 @@ const Form = ({ addUser, toggleModal }) => {
         <select
           name="price"
           value={price}
-          onChange={handlerChangePrice}
-          className={css.input}
+          onChange={handlerChange}
+          className={`${css.input}  ${css.inputPrice}`}
         >
-          <option value={0} disabled>
-            To &
-          </option>
-          <option value={30}>30</option>
-          <option value={40}>40</option>
-          <option value={50}>50</option>
+          <option value={''}>To $</option>
+          <option value={'30'}>30</option>
+          <option value={'40'}>40</option>
+          <option value={'50'}>50</option>
         </select>
+        {price && <div className={css.subInput}>{`To ${price} $`}</div>}
       </label>
 
       <label className={`${css.label} ${css.labelDistance}`}>
@@ -73,20 +76,18 @@ const Form = ({ addUser, toggleModal }) => {
           <input
             type="text"
             name="kmFrom"
-            title="title"
             value={kmFrom}
-            onChange={handlerChangeKmFrom}
+            onChange={handlerChange}
             className={`${css.input} ${css.inputDistanceLeft}`}
-            placeholder="Enter the text"
+            placeholder="From"
           />
           <input
             type="text"
             name="kmTo"
-            title="title"
             value={kmTo}
-            onChange={handlerChangeKmTo}
+            onChange={handlerChange}
             className={`${css.input} ${css.inputDistanceRight}`}
-            placeholder="Enter the text"
+            placeholder="To"
           />
         </div>
       </label>

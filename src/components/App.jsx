@@ -9,17 +9,14 @@ import ContentPanel from './ContentPanel/ContentPanel';
 import Form from './Form/Form';
 import Home from 'pages/Home/Home';
 import SharedLayout from 'pages/SharedLayout';
+import Catalog from 'pages/Catalog/Catalog';
+import Favorites from 'pages/Favorites/Favorites';
 
-const LS_KEY = 'carSharingFavorite';
 // https://647bc928c0bae2880ad03fe8.mockapi.io/adverts
 // hook useLocalStorage video_1 1:06
 
 export const App = () => {
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem(LS_KEY, JSON.stringify());
-  }, []);
 
   const toggleModal = () => {
     setShowModal(previousValue => !previousValue);
@@ -41,8 +38,8 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
-          <Route path="catalog" element={<Home />} />
-          <Route path="favorites" element={<Home />} />
+          <Route path="catalog" element={<Catalog />} />
+          <Route path="favorites" element={<Favorites />} />
           <Route path="*" element={<h4>Layout not found</h4>} />
         </Route>
       </Routes>
