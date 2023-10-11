@@ -17,6 +17,7 @@ const Form = () => {
     price: setPrice,
     kmFrom: setKmFrom,
     kmTo: setKmTo,
+    forSuccessDeploy: _,
   };
 
   const options = [
