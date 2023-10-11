@@ -8,10 +8,6 @@ const LS_KEY = 'carSharingFavorite';
 
 const Catalog = () => {
   const [totalItems, setTotalItems] = useState([]);
-  const [showingItems, setShowingItems] = useState([]);
-  const [page, setPage] = useState(1);
-  const [pages, setPages] = useState(0);
-  const [isLastPage, setIsLastPage] = useState(false);
 
   const [responseStatus, setResponseStatus] = useState('');
   const [searchParams] = useSearchParams();
@@ -33,7 +29,6 @@ const Catalog = () => {
       .then(res => res.json())
       .then(res => {
         setTotalItems(res);
-        setShowingItems(res.slice(0, 8));
       })
       .catch(er => setResponseStatus(er.message));
   };
@@ -60,54 +55,16 @@ const Catalog = () => {
     localStorage.setItem(LS_KEY, JSON.stringify(favorites));
   }, [favorites]);
 
-  useEffect(() => {
-    const pagesCount = () => {
-      const full = Math.trunc(totalItems.length / 8);
-      const rest = totalItems.length % 8 > 0;
-      if (full && rest) return full + 1;
-      if (full && !rest) return full;
-      if (!full && rest) return 1;
-      if (!full && !rest) return 0;
-    };
-    setPages(pagesCount());
-
-    if (page < pages) {
-      setIsLastPage(false);
-    } else {
-      setIsLastPage(true);
-    }
-  }, [page, pages, totalItems]);
-
-  useEffect(() => {
-    if (page !== 1 && !isLastPage) {
-      console.log('not_last');
-      setShowingItems([
-        ...showingItems,
-        ...totalItems.slice(page * 8 - 8, page * 8),
-      ]);
-    }
-    if (page !== 1 && isLastPage) {
-      console.log('last');
-      setShowingItems([
-        ...showingItems,
-        ...totalItems.slice(page * 8 - 8, totalItems.length - (page * 8 - 8)),
-      ]);
-    }
-    // eslint-disable-next-line
-  }, [page, isLastPage, totalItems]);
-
   return (
     <>
       <Form />
 
-      {showingItems.length !== 0 ? (
+      {totalItems.length !== 0 ? (
         <Gallery
-          items={showingItems}
+          items={totalItems}
           filters={filters}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
-          nextPage={() => setPage(page + 1)}
-          isLastPage={isLastPage}
         />
       ) : (
         <p className={css.responseParagraph}>{responseStatus} </p>
