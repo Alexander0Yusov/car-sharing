@@ -8,7 +8,7 @@ const LS_KEY = 'carSharingFavorite';
 
 const Catalog = () => {
   const [totalItems, setTotalItems] = useState([]);
-
+  const [filteredItems, setFilteredItems] = useState([]);
   const [responseStatus, setResponseStatus] = useState('');
   const [searchParams] = useSearchParams();
   const [favorites, setFavorites] = useState(() => {
@@ -18,20 +18,6 @@ const Catalog = () => {
     }
     return [];
   });
-
-  const filters = {};
-  for (const [key, value] of searchParams) {
-    filters[key] = value;
-  }
-
-  const getData = () => {
-    fetch(`https://647bc928c0bae2880ad03fe8.mockapi.io/adverts`)
-      .then(res => res.json())
-      .then(res => {
-        setTotalItems(res);
-      })
-      .catch(er => setResponseStatus(er.message));
-  };
 
   const toggleFavorite = id => {
     const updatedFavorites = [...favorites];
@@ -48,6 +34,14 @@ const Catalog = () => {
   };
 
   useEffect(() => {
+    const getData = () => {
+      fetch(`https://647bc928c0bae2880ad03fe8.mockapi.io/adverts`)
+        .then(res => res.json())
+        .then(res => {
+          setTotalItems(res);
+        })
+        .catch(er => setResponseStatus(er.message));
+    };
     getData();
   }, []);
 
@@ -55,14 +49,41 @@ const Catalog = () => {
     localStorage.setItem(LS_KEY, JSON.stringify(favorites));
   }, [favorites]);
 
+  useEffect(() => {
+    const filters = {};
+    for (const [key, value] of searchParams) {
+      filters[key] = value;
+    }
+    const { brand, price, kmFrom, kmTo } = filters;
+
+    setFilteredItems(
+      totalItems
+        .filter(({ make }) => {
+          if (!brand) return true;
+          return make.toLowerCase() === brand.toLowerCase();
+        })
+        .filter(({ rentalPrice }) => {
+          if (!price) return true;
+          return Number(rentalPrice.split('$')[1]) <= Number(price);
+        })
+        .filter(({ mileage }) => {
+          if (!kmFrom) return true;
+          return Number(mileage) >= Number(kmFrom);
+        })
+        .filter(({ mileage }) => {
+          if (!kmTo) return true;
+          return Number(mileage) <= Number(kmTo);
+        })
+    );
+  }, [searchParams, totalItems]);
+
   return (
     <>
       <Form />
 
       {totalItems.length !== 0 ? (
         <Gallery
-          items={totalItems}
-          filters={filters}
+          items={filteredItems}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
         />

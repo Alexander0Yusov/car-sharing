@@ -4,12 +4,7 @@ import GalleryItem from 'components/GalleryItem/GalleryItem';
 import Modal from 'components/Modal/Modal';
 import PopupCard from 'components/PopupCard/PopupCard';
 
-const Gallery = ({
-  items,
-  filters: { brand, price, kmFrom, kmTo },
-  favorites,
-  toggleFavorite,
-}) => {
+const Gallery = ({ items, favorites, toggleFavorite }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
   const [page, setPage] = useState(1);
@@ -57,36 +52,18 @@ const Gallery = ({
   return (
     <>
       <ul className={css.gallery}>
-        {items
-          .slice(0, moreIndex)
-          .filter(({ make }) => {
-            if (!brand) return true;
-            return make.toLowerCase() === brand.toLowerCase();
-          })
-          .filter(({ rentalPrice }) => {
-            if (!price) return true;
-            return Number(rentalPrice.split('$')[1]) <= Number(price);
-          })
-          .filter(({ mileage }) => {
-            if (!kmFrom) return true;
-            return Number(mileage) >= Number(kmFrom);
-          })
-          .filter(({ mileage }) => {
-            if (!kmTo) return true;
-            return Number(mileage) <= Number(kmTo);
-          })
-          .map(({ id, ...restProps }) => {
-            return (
-              <li key={id} className={css.galleryItem}>
-                <GalleryItem
-                  restProps={restProps}
-                  isFavorite={favorites.includes(id)}
-                  toggleFavorite={() => toggleFavorite(id)}
-                  toggleModal={() => toggleModal(id)}
-                />
-              </li>
-            );
-          })}
+        {items.slice(0, moreIndex).map(({ id, ...restProps }) => {
+          return (
+            <li key={id} className={css.galleryItem}>
+              <GalleryItem
+                restProps={restProps}
+                isFavorite={favorites.includes(id)}
+                toggleFavorite={() => toggleFavorite(id)}
+                toggleModal={() => toggleModal(id)}
+              />
+            </li>
+          );
+        })}
         {!isLastPage && (
           <li>
             <button className={css.button} onClick={() => setPage(page + 1)}>

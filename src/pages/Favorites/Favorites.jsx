@@ -1,4 +1,3 @@
-import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import css from './Favorites.module.scss';
 import Gallery from 'components/Gallery/Gallery';
@@ -52,7 +51,6 @@ const Favorites = () => {
       {response.length !== 0 ? (
         <Gallery
           items={response?.filter(({ id }) => favorites.includes(id))}
-          filters={{ brand: null, price: null, kmFrom: null, kmTo: null }}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
         />
