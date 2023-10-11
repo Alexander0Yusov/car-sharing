@@ -44,7 +44,7 @@ const Gallery = ({
     if (isLastPage) {
       setMoreIndex(items.length);
     }
-  }, [page]);
+  }, [page, isLastPage, items.length]);
 
   const toggleModal = id_ => {
     if (id_) {
