@@ -1,13 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
+import { lazy } from 'react';
 import css from './App.module.css';
 
-import Home from 'pages/Home/Home';
 import SharedLayout from 'pages/SharedLayout';
-import Catalog from 'pages/Catalog/Catalog';
-import Favorites from 'pages/Favorites/Favorites';
-
-// https://647bc928c0bae2880ad03fe8.mockapi.io/adverts
-// hook useLocalStorage video_1 1:06
+const Home = lazy(() => import('../pages/Home/Home'));
+const Catalog = lazy(() => import('../pages/Catalog/Catalog'));
+const Favorites = lazy(() => import('../pages/Favorites/Favorites'));
 
 export const App = () => {
   return (
@@ -17,7 +15,6 @@ export const App = () => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        // justifyContent: 'center',
         alignItems: 'center',
         fontSize: 40,
         color: '#010101',
@@ -31,14 +28,6 @@ export const App = () => {
           <Route path="*" element={<h4>Layout not found</h4>} />
         </Route>
       </Routes>
-
-      {/* <Section>
-        <Sidebar>hi</Sidebar>
-        <ContentPanel>
-          <Form />
-        </ContentPanel>
-      </Section> */}
-      {/* {showModal && <Modal onClose={toggleModal}></Modal>} */}
     </div>
   );
 };

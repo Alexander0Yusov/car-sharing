@@ -11,7 +11,6 @@ const Form = () => {
   const [kmTo, setKmTo] = useState('');
 
   const [_, setSearchParams] = useSearchParams();
-  console.log(_);
 
   const setters = {
     brand: setBrand,
