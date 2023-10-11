@@ -9,7 +9,7 @@ const Form = () => {
   const [kmFrom, setKmFrom] = useState('');
   const [kmTo, setKmTo] = useState('');
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [setSearchParams] = useSearchParams();
 
   const setters = {
     brand: setBrand,

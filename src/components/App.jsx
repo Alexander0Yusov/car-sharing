@@ -1,12 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import css from './App.module.css';
 
-import Section from './Section/Section';
-import Modal from './Modal/Modal';
-import Sidebar from './Sidebar/Sidebar';
-import ContentPanel from './ContentPanel/ContentPanel';
-import Form from './Form/Form';
 import Home from 'pages/Home/Home';
 import SharedLayout from 'pages/SharedLayout';
 import Catalog from 'pages/Catalog/Catalog';
@@ -16,12 +10,6 @@ import Favorites from 'pages/Favorites/Favorites';
 // hook useLocalStorage video_1 1:06
 
 export const App = () => {
-  const [showModal, setShowModal] = useState(false);
-
-  const toggleModal = () => {
-    setShowModal(previousValue => !previousValue);
-  };
-
   return (
     <div
       className={css.Wrap}
