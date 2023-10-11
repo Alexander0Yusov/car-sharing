@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcar_sharing=self.webpackChunkcar_sharing||[]).push([[395],{395:function(e,s,r){r.r(s),r.d(s,{default:function(){return i}});var n="Home_home__9Ke73",a="Home_title__1aNQh",c="Home_subTitle__p8+6P",t=r(184),i=function(){return(0,t.jsxs)("div",{className:n,children:[(0,t.jsx)("h3",{className:a,children:"Trend to be free"}),(0,t.jsx)("p",{className:c,children:"Trust the professionals"})]})}}}]);
+//# sourceMappingURL=395.fc01b90a.chunk.js.map
