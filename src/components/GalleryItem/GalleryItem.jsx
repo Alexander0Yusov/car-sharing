@@ -2,8 +2,18 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import css from './GalleryItem.module.scss';
 
 const GalleryItem = props => {
-  const { address, img, make, year, type, rentalPrice, rentalCompany, model } =
-    props.restProps;
+  const {
+    address,
+    img,
+    make,
+    year,
+    type,
+    rentalPrice,
+    rentalCompany,
+    model,
+    mileage,
+    accessories,
+  } = props.restProps;
 
   return (
     <article className={css.card}>
@@ -29,7 +39,14 @@ const GalleryItem = props => {
         </p>
         <p className={css.titlePrice}>{`${rentalPrice}`}</p>
       </div>
-      <p className={css.details}>{`${address} | ${type} | ${rentalCompany}`}</p>
+      <p className={css.details}>{`${address
+        .split(', ')
+        .slice(-2)
+        .join(
+          ' | '
+        )} | ${rentalCompany} | ${type} | ${model} | ${mileage} | ${accessories.join(
+        ' | '
+      )}`}</p>
       <button className={css.button} onClick={props.toggleModal}>
         Learn more
       </button>

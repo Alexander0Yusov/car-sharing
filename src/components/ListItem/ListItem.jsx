@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import css from './ListItem.module.css';
+import css from './ListItem.module.scss';
 
 const ListItem = ({ id, name, number, url, deleteContact }) => {
   return (

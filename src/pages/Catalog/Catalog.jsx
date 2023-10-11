@@ -4,34 +4,11 @@ import css from './Catalog.module.scss';
 import Gallery from 'components/Gallery/Gallery';
 import Form from 'components/Form/Form';
 
-const LS_KEY = 'carSharingFavorite';
-
 const Catalog = () => {
   const [totalItems, setTotalItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [responseStatus, setResponseStatus] = useState('');
   const [searchParams] = useSearchParams();
-  const [favorites, setFavorites] = useState(() => {
-    const localData = localStorage.getItem(LS_KEY);
-    if (localData) {
-      return JSON.parse(localData);
-    }
-    return [];
-  });
-
-  const toggleFavorite = id => {
-    const updatedFavorites = [...favorites];
-
-    if (favorites.includes(id)) {
-      const deleteIndex = favorites.indexOf(id);
-      updatedFavorites.splice(deleteIndex, 1);
-      setFavorites(updatedFavorites);
-      return;
-    }
-
-    updatedFavorites.push(id);
-    setFavorites(updatedFavorites);
-  };
 
   useEffect(() => {
     const getData = () => {
@@ -44,10 +21,6 @@ const Catalog = () => {
     };
     getData();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem(LS_KEY, JSON.stringify(favorites));
-  }, [favorites]);
 
   useEffect(() => {
     const filters = {};
@@ -82,11 +55,7 @@ const Catalog = () => {
       <Form />
 
       {totalItems.length !== 0 ? (
-        <Gallery
-          items={filteredItems}
-          favorites={favorites}
-          toggleFavorite={toggleFavorite}
-        />
+        <Gallery items={filteredItems} isFavorite={false} />
       ) : (
         <p className={css.responseParagraph}>{responseStatus} </p>
       )}

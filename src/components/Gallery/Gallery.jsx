@@ -4,13 +4,30 @@ import GalleryItem from 'components/GalleryItem/GalleryItem';
 import Modal from 'components/Modal/Modal';
 import PopupCard from 'components/PopupCard/PopupCard';
 
-const Gallery = ({ items, favorites, toggleFavorite }) => {
+const LS_KEY = 'carSharingFavorite';
+
+const Gallery = ({ items: items_, isFavorite }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
   const [moreIndex, setMoreIndex] = useState(8);
+  const [items, setItems] = useState([]);
+
+  const [favorites, setFavorites] = useState(() => {
+    const localData = localStorage.getItem(LS_KEY);
+    if (localData) {
+      return JSON.parse(localData);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    setItems(
+      items_.filter(({ id }) => (isFavorite ? favorites.includes(id) : true))
+    );
+  }, [isFavorite, favorites, items_]);
 
   useEffect(() => {
     const pagesCount = () => {
@@ -41,6 +58,22 @@ const Gallery = ({ items, favorites, toggleFavorite }) => {
     }
   }, [page, isLastPage, items.length]);
 
+  useEffect(() => {
+    localStorage.setItem(LS_KEY, JSON.stringify(favorites));
+  }, [favorites]);
+
+  const toggleFavorite = id => {
+    const updatedFavorites = [...favorites];
+    if (favorites.includes(id)) {
+      const deleteIndex = favorites.indexOf(id);
+      updatedFavorites.splice(deleteIndex, 1);
+      setFavorites(updatedFavorites);
+      return;
+    }
+    updatedFavorites.push(id);
+    setFavorites(updatedFavorites);
+  };
+
   const toggleModal = id_ => {
     if (id_) {
       const itemToModal = items.find(({ id }) => id === id_);
@@ -65,7 +98,7 @@ const Gallery = ({ items, favorites, toggleFavorite }) => {
           );
         })}
         {!isLastPage && (
-          <li>
+          <li className={css.galleryItem}>
             <button className={css.button} onClick={() => setPage(page + 1)}>
               Load more
             </button>

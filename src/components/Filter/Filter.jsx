@@ -1,4 +1,4 @@
-import css from './Filter.module.css';
+import css from './Filter.module.scss';
 import PropTypes from 'prop-types';
 import { FcSearch } from 'react-icons/fc';
 import { TiUserAdd } from 'react-icons/ti';
