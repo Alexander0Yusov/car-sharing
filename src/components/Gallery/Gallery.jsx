@@ -82,6 +82,8 @@ const Gallery = ({ items: items_, isFavorite }) => {
     setShowModal(prev => !prev);
   };
 
+  const incrementPage = () => setPage(prev => prev + 1);
+
   return (
     <>
       <ul className={css.gallery}>
@@ -99,7 +101,7 @@ const Gallery = ({ items: items_, isFavorite }) => {
         })}
         {!isLastPage && (
           <li className={css.galleryItem}>
-            <button className={css.button} onClick={() => setPage(page + 1)}>
+            <button className={css.button} onClick={incrementPage}>
               Load more
             </button>
           </li>
